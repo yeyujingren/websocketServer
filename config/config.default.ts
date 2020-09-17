@@ -23,7 +23,7 @@ export default (appInfo: EggAppInfo) => {
   };
 
   // 邮箱基础配置
-  config.email = {
+  config.emailConfig = {
     service: 'qq', // 发送方的邮箱服务器
     secureConnection: true, // 启动SSL
     port: 465, // 端口就是465（默认）

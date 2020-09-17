@@ -25,9 +25,34 @@ export default class UserController extends Controller {
    */
   public async emailCode() {
     const { method, query, request } = this.ctx;
-    const data = method.toUpperCase() === 'POST' ? request.body : query;
-    console.log('data--->', data);
-    const result = await this.ctx.service.user.emailCode(data);
-    console.log(result);
+    const { isEmail } = this.ctx.helper;
+    const data: {email: string} = method.toUpperCase() === 'POST' ? request.body : query;
+    console.log('data ----->', data);
+    if (!isEmail(data.email)) {
+      this.ctx.body = {
+        code: 2,
+        msg: '请输入正确的邮箱地址！',
+        content: null,
+        status: 'FAIL',
+      };
+      return;
+    }
+    const result: boolean = await this.ctx.service.user.emailCode(data.email);
+    if (result) {
+      this.ctx.body = {
+        code: 1,
+        msg: '发送成功！',
+        content: null,
+        status: 'success',
+      };
+      return;
+    }
+    this.ctx.body = {
+      code: 2,
+      msg: '发送失败，请稍后重试！',
+      content: null,
+      status: 'FAIL',
+    };
+    return;
   }
 }
