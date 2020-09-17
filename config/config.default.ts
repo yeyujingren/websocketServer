@@ -22,9 +22,17 @@ export default (appInfo: EggAppInfo) => {
     agent: false,
   };
 
-  config.cors = {
-
+  // 邮箱基础配置
+  config.email = {
+    service: 'qq', // 发送方的邮箱服务器
+    secureConnection: true, // 启动SSL
+    port: 465, // 端口就是465（默认）
+    auth: {
+      user: '2776107754@qq.com', // 账号
+      pass: 'kasfkupopwbbdefh', // 授权码,
+    },
   };
+
   // bcrypt加密相关配置
   config.bcrypt = {
     saltRounds: 10,

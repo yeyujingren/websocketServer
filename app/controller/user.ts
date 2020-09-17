@@ -18,4 +18,16 @@ export default class UserController extends Controller {
       status: result ? 'SUCCESS' : 'FAIL',
     };
   }
+  /**
+   * emailCode
+   * kasfkupopwbbdefh
+   * 发送邮箱验证码
+   */
+  public async emailCode() {
+    const { method, query, request } = this.ctx;
+    const data = method.toUpperCase() === 'POST' ? request.body : query;
+    console.log('data--->', data);
+    const result = await this.ctx.service.user.emailCode(data);
+    console.log(result);
+  }
 }
