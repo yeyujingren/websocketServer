@@ -11,8 +11,25 @@ export default class userService extends Service {
     const { isEmpty } = this.ctx.helper;
     const { username, userpwd } = data;
     if (isEmpty(username) || isEmpty(userpwd)) return;
-    const result = await this.app.mysql.select('user', { u_name: username });
+    const result = await this.app.mysql.get('user', { u_name: username });
+    console.log('compare', await this.ctx.compare(userpwd, result[0] && result[0].u_pwd || ''), username, userpwd);
     return await this.ctx.compare(userpwd, result[0] && result[0].u_pwd || '');
+  }
+
+  /**
+   * checkEmail
+   * 验证邮箱是否已经注册
+   */
+  public async checkEmail(data: string) {
+    try {
+      const result = await this.app.mysql.select('user', { u_email: data });
+      if (result.length !== 0) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /**
@@ -22,11 +39,16 @@ export default class userService extends Service {
     const { emailConfig } = this.app.config;
     const transporter = nodemailer.createTransport(emailConfig);
     // 生成六位随机数字并存入session中有效期为10min
-    const verifyCode = Math.floor(Math.random() * 900000) + 100000;
-    this.ctx.session.verifyCode = {
-      email: data,
+    const verifyCode = String(Math.floor(Math.random() * 900000) + 100000);
+    this.ctx.cookies.set(
+      `${data}_verify_code`,
       verifyCode,
-    };
+      {
+        maxAge: 10 * 60 * 1000,
+      },
+    );
+
+    console.log('verifyCode', this.ctx.cookies.get(`${data}_verify_code`));
 
     const mailOptions = {
       from: emailConfig.auth.user, // 发送者,与上面的user一致
@@ -47,6 +69,27 @@ export default class userService extends Service {
       return true;
     } catch (error) {
       console.log('send email error =====>', error);
+      return false;
+    }
+  }
+
+  /**
+   * register
+   * 用户注册
+   */
+  public async register(data: APIParams.Register) {
+    const { ctx } = this;
+    const { userpwd, username, email } = data;
+    const hashPwd = await ctx.genHash(userpwd);
+    try {
+      await this.app.mysql.insert('user', {
+        u_name: username,
+        u_pwd: hashPwd,
+        u_createTime: ctx.helper.formateDate('yyyy-MM-dd'),
+        u_email: email,
+      });
+      return true;
+    } catch (error) {
       return false;
     }
   }
