@@ -57,7 +57,7 @@ export default class userService extends Service {
       // text: '测试内容', // 文本
       html: `<h2 style="text-align: center;">验证您的电子邮箱地址</h2>
       <p style="text-align: left;">
-          感谢您选择使用本产品，希望能一起度过美好的时间。请输入一下验证码，来验证您的邮箱：
+          感谢您选择使用本产品，希望能一起度过美好的时间。请输入以下验证码，来验证您的邮箱：
       </p>
       <b style="font-size: 24px;">${verifyCode}</b>
       <p>验证码有效期为10分钟，请及时注册</p>
