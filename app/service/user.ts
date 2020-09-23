@@ -12,7 +12,6 @@ export default class userService extends Service {
     const { username, userpwd } = data;
     if (isEmpty(username) || isEmpty(userpwd)) return;
     const result = await this.app.mysql.get('user', { u_name: username });
-    console.log('compare', await this.ctx.compare(userpwd, result.u_pwd || ''), username, userpwd, result);
     return await this.ctx.compare(userpwd, result.u_pwd || '');
   }
 
