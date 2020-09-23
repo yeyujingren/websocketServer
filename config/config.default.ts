@@ -38,6 +38,17 @@ export default (appInfo: EggAppInfo) => {
     saltRounds: 10,
   };
 
+  // websocket 配置
+  config.io = {
+    init: { wsEngine: 'ws' }, // default ws, it also have uws engine
+    namespace: {
+      '/chat': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+    },
+  };
+
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1599723249141_1008';

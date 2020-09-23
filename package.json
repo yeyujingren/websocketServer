@@ -8,9 +8,9 @@
     "declarations": true
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --prot=9521 --title=egg-server-websocketNode",
+    "start": "egg-scripts start --daemon --prot=9521 --title=egg-server-websocketNode --sticky",
     "stop": "egg-scripts stop --title=egg-server-websocketNode",
-    "dev": "egg-bin dev --port=9521",
+    "dev": "egg-bin dev --port=9521 --sticky",
     "debug": "egg-bin debug",
     "test-local": "egg-bin test",
     "test": "npm run lint -- --fix && npm run test-local",
@@ -26,6 +26,7 @@
     "egg-bcrypt": "^1.1.0",
     "egg-mysql": "^3.0.0",
     "egg-scripts": "^2.6.0",
+    "egg-socket.io": "^4.1.6",
     "nodemailer": "^6.4.11"
   },
   "devDependencies": {

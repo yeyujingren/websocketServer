@@ -14,6 +14,10 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-bcrypt',
   },
+  io: {
+    enable: true,
+    package: 'egg-socket.io',
+  },
 };
 
 export default plugin;
