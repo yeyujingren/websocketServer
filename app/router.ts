@@ -4,7 +4,7 @@ export default (app: Application) => {
   const { controller, router, io } = app;
 
   // socket.io
-  io.of('/chat').route('/', io.controller.index.index);
+  io.of('/chat').route('/send', io.controller.chat.ping);
 
   router.all('/user/login', controller.user.login);
   router.all('/user/email/code', controller.user.emailCode);
