@@ -6,16 +6,14 @@ export default class ChatController extends Controller {
    * test for websocket
    */
   public async ping() {
-    console.log('111111----->');
     const { ctx, app } = this;
-    const nsp = app.io.of('/chat');
     const message = ctx.args[0] || {};
     const socket = ctx.socket;
     const client = socket.id;
 
     try {
       const { target } = message;
-      console.log('1111111', client, nsp, message);
+      console.log('1111111', message, client);
       if (!target) return;
       socket.emit('news', { data: [{ id: 1, text: '我是向前端发送的新闻列表' }] });
       // const msg = ctx.helper.parseMsg('exchange', payload, { client, target });

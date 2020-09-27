@@ -42,6 +42,10 @@ export default (appInfo: EggAppInfo) => {
   config.io = {
     init: { wsEngine: 'ws' }, // default ws, it also have uws engine
     namespace: {
+      '/': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
       '/chat': {
         connectionMiddleware: [],
         packetMiddleware: [],
